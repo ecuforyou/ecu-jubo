@@ -10,8 +10,8 @@ export const TYPO: TypoConfig = {
   h2: 32,
   h3: 28,
   h4: 24,
-  sm: 16,
-  xs: 12,
+  sm: 20,
+  xs: 16,
 };
 
 export const COLOR = {

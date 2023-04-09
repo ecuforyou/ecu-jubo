@@ -17,5 +17,5 @@ export function TextBox(props: TextBoxProps) {
     }),
     [props.size, props.extendedStyle]
   );
-  return <p style={textBoxStyle}>{props.children}</p>;
+  return <div style={textBoxStyle}>{props.children}</div>;
 }

@@ -1,3 +1,4 @@
+import { Container } from '@/common/Container';
 import { TextBox } from '@/common/TextBox';
 import { WEIGHT } from '@/common/theme';
 import { useMemo } from 'react';
@@ -21,9 +22,9 @@ export function SubTitle() {
   const from = useMemo(() => `요한일서 3장 23절`, []);
 
   return (
-    <>
+    <Container>
       <TextBox extendedStyle={{ fontWeight: WEIGHT.bold }}>{words}</TextBox>
       <TextBox extendedStyle={{ fontWeight: WEIGHT.normal }}>{from}</TextBox>
-    </>
+    </Container>
   );
 }

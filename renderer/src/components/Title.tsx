@@ -1,3 +1,4 @@
+import Image from 'next/image';
 export function Title() {
-  return <h1>Title</h1>;
+  return <Image src="/title.png" width={523} height={100} alt="title" />;
 }

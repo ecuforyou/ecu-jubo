@@ -26,4 +26,6 @@ const juboStyle: CSSProperties = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
+  paddingTop: 24,
+  paddingBottom: 24,
 };
