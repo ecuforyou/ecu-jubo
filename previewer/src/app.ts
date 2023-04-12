@@ -10,4 +10,6 @@ app.post('/preview', async (req, res) => {
   res.sendFile(filename, { root: path.join(__dirname, '..') });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Previewer started on PORT: ${PORT}`);
+});

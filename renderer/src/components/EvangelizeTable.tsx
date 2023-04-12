@@ -2,41 +2,12 @@ import { Container } from '@/common/Container';
 import { Table } from '@/common/Table';
 import { TextBox } from '@/common/TextBox';
 import { TYPO, WEIGHT } from '@/common/theme';
+import { ITable } from './Jubo';
 
-export function EvangelizeTable() {
-  // TODO: Crawl from google sheets
-  const cols = 7;
-  const rows = 4;
-  const data = [
-    '구분',
-    '4월 1주',
-    '4월 2주',
-    '4월 3주',
-    '4월 4주',
-    '4월 총계',
-    '2023년 누계',
-    '만난 사람',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '-',
-    '복음 들은 사람',
-    '',
-    '',
-    '',
-    '',
-    '234',
-    '-',
-    '영접한 사람',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '-',
-  ];
+interface EvangelizeTableProps extends ITable {}
+
+export function EvangelizeTable(props: EvangelizeTableProps) {
+  const { cols, rows, data } = props;
 
   return (
     <Container width={'90%'}>

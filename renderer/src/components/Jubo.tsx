@@ -5,14 +5,30 @@ import { Notice } from './Notice';
 import { SubTitle } from './Subtitle';
 import { TimeTable } from './TimeTable';
 import { Title } from './Title';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-export function Jubo() {
+export interface IJubo {
+  data: {
+    timetable: ITable;
+    evangelize: ITable;
+  };
+}
+export interface ITable {
+  rows: number;
+  cols: number;
+  data: string[];
+}
+
+export function Jubo(props: IJubo) {
+  // useEffect or fetch to google sheets
+  // give data to each components' props
+  const { timetable, evangelize } = props.data;
   return (
     <div style={juboStyle} id="jubo">
       <Title />
       <SubTitle />
-      <TimeTable />
-      <EvangelizeTable />
+      <TimeTable {...timetable} />
+      <EvangelizeTable {...evangelize} />
       <Notice />
       <Footer />
     </div>
@@ -21,7 +37,6 @@ export function Jubo() {
 
 const juboStyle: CSSProperties = {
   minWidth: '794px',
-  minHeight: '1123px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

@@ -4,12 +4,13 @@ import { TextBox } from '@/common/TextBox';
 import { TYPO, WEIGHT } from '@/common/theme';
 
 export function Notice() {
+  // TODO: Read data from google sheets
   return (
     <Container width={'80%'} extendedStyle={{ marginTop: 20 }}>
       <Box
         primary
         extendedStyle={{
-          minHeight: 160,
+          height: '100%',
         }}
       >
         <Container
@@ -22,9 +23,6 @@ export function Notice() {
           <TextBox size={TYPO.h3}>ECU 일정</TextBox>
           <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: WEIGHT.normal }}>
             ▶ 5월 4일 - 6일 ,  중간 수련회
-          </TextBox>
-          <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: WEIGHT.normal }}>
-            ▶ 5월 20일 ,  전도 집회 및 소풍
           </TextBox>
           <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: WEIGHT.normal }}>
             ▶ 5월 20일 ,  전도 집회 및 소풍

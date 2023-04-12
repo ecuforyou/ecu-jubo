@@ -3,6 +3,8 @@ import { TextBox } from '@/common/TextBox';
 import { COLOR, TYPO } from '@/common/theme';
 
 export function Footer() {
+  // TODO: Read from google sheets
+  // meeting_name, address
   return (
     <Container
       width={'76%'}
