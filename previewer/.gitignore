@@ -1,3 +1,4 @@
 created/**
 node_modules
 .env
+dist

@@ -4,8 +4,9 @@
   "description": "Capture \"jubo\" to png, and serve to slack bot and post to youtube community.",
   "main": "index.js",
   "scripts": {
-    "start": "env $(cat .env | grep -v '#' | xargs) ts-node src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "env $(cat .env | grep -v '#' | xargs) ts-node src/app.ts",
+    "build": "npx tsc",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
