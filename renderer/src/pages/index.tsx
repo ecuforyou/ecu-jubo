@@ -8,6 +8,8 @@ import {
 import { GoogleSheetAPI } from './api/sheet';
 import { JuboData, RawJuboData, SheetName } from '@/types';
 import { MetadataContext } from '@/context/MetadataContext';
+import { sheets_v4 } from 'googleapis';
+import { As2DString, log } from '@/util';
 
 export default function Home(data: JuboData) {
   const { metadata } = data;
@@ -24,7 +26,7 @@ export async function getServerSideProps({
   req,
   res,
 }: GetServerSidePropsContext): Promise<GetServerSidePropsResult<JuboData>> {
-  log('crawling started');
+  log('call started');
 
   const api = new GoogleSheetAPI();
   const targetSheetNames: SheetName[] = [
@@ -34,26 +36,27 @@ export async function getServerSideProps({
     'metadata',
     'orders',
   ];
-  const sizeDatas = await Promise.all(
-    targetSheetNames.map(async (name) => {
-      const data = await api.getData(`${name}!A1:B1`);
-      return As2DString(data);
-    })
-  );
-  log('crawled sizes');
+  const sizeRanges = targetSheetNames.map((name) => `${name}!A1:B1`);
+  const batchedSizeDatas = (await api.getDatas(
+    sizeRanges
+  )) as sheets_v4.Schema$ValueRange[];
+  const sizeDatas = batchedSizeDatas.map((s) => As2DString(s.values));
 
-  const datas = await Promise.all(
-    sizeDatas.map(async (sizeData, i) => {
-      const [rows, cols] = sizeData[0].map((e) => parseInt(e));
-      const data = await api.getData(
-        `${targetSheetNames[i]}!A2:${String.fromCharCode(65 + cols - 1)}${
-          rows + 1
-        }`
-      );
-      return { name: targetSheetNames[i], cols, rows, data: As2DString(data) };
-    })
-  );
-  log('crawled important data');
+  const dataRanges = sizeDatas.map((sizeData, i) => {
+    const [rows, cols] = sizeData[0].map((e) => parseInt(e));
+    return `${targetSheetNames[i]}!A2:${String.fromCharCode(65 + cols - 1)}${
+      rows + 1
+    }`;
+  });
+  const batchedData = (await api.getDatas(
+    dataRanges
+  )) as sheets_v4.Schema$ValueRange[];
+  const datas = batchedData
+    .map((d) => As2DString(d.values))
+    .map((data, i) => {
+      const [rows, cols] = sizeDatas[i][0].map((e) => parseInt(e));
+      return { name: targetSheetNames[i], cols, rows, data };
+    });
 
   const prepared = datas.reduce((acc, { name, cols, rows, data }) => {
     acc[name] = { cols, rows, data: data.flat() };
@@ -77,12 +80,4 @@ export async function getServerSideProps({
       ...jubodata,
     },
   };
-}
-
-function As2DString(data?: any[][] | null) {
-  return data as string[][];
-}
-
-function log(data: any) {
-  console.log(`[${new Date()}]`, data);
 }
