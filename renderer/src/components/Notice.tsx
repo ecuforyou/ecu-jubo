@@ -2,9 +2,12 @@ import { Box } from '@/common/Box';
 import { Container } from '@/common/Container';
 import { TextBox } from '@/common/TextBox';
 import { TYPO, WEIGHT } from '@/common/theme';
+import { ITable } from '@/types';
 
-export function Notice() {
-  // TODO: Read data from google sheets
+interface NoticeProps extends ITable {}
+
+export function Notice(props: NoticeProps) {
+  const { cols, rows, data } = props;
   return (
     <Container width={'80%'} extendedStyle={{ marginTop: 20 }}>
       <Box
@@ -21,12 +24,15 @@ export function Notice() {
           }}
         >
           <TextBox size={TYPO.h3}>ECU 일정</TextBox>
-          <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: WEIGHT.normal }}>
-            ▶ 5월 4일 - 6일 ,  중간 수련회
-          </TextBox>
-          <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: WEIGHT.normal }}>
-            ▶ 5월 20일 ,  전도 집회 및 소풍
-          </TextBox>
+          {data.map((e, i) => (
+            <TextBox
+              key={i}
+              size={TYPO.sm}
+              extendedStyle={{ fontWeight: WEIGHT.normal }}
+            >
+              {e}
+            </TextBox>
+          ))}
         </Container>
       </Box>
     </Container>

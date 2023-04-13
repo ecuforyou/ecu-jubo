@@ -1,10 +1,12 @@
 import { Container } from '@/common/Container';
 import { TextBox } from '@/common/TextBox';
 import { COLOR, TYPO } from '@/common/theme';
+import { MetadataContext } from '@/context/MetadataContext';
+import { useContext } from 'react';
 
-export function Footer() {
-  // TODO: Read from google sheets
-  // meeting_name, address
+interface FooterProps {}
+export function Footer(props: FooterProps) {
+  const metadata = useContext(MetadataContext);
   return (
     <Container
       width={'76%'}
@@ -19,10 +21,10 @@ export function Footer() {
       }}
     >
       <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: 700 }}>
-        ECU 토요모임
+        {metadata.meeting_name ?? ''}
       </TextBox>
       <TextBox size={TYPO.sm} extendedStyle={{ fontWeight: 700 }}>
-        서울 강남구 논현로 87길 23 4층 ECU 선교본부
+        {metadata.address ?? ''}
       </TextBox>
     </Container>
   );

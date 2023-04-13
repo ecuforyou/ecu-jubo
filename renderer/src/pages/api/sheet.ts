@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { CREDENTIAL, CREDENTIAL_FILE_NAME, SHEET_ID } from '../../envLayer';
-import { google } from 'googleapis';
+import { google, sheets_v4 } from 'googleapis';
 import { JWT } from 'google-auth-library';
 
 const CREDENTIAL_PATH = path.join(process.cwd(), CREDENTIAL_FILE_NAME);
@@ -16,6 +16,7 @@ interface Credentials {
 export class GoogleSheetAPI {
   static credentials?: Credentials;
   static client: JWT;
+  static sheets: sheets_v4.Sheets;
   constructor() {
     if (GoogleSheetAPI.credentials) return this;
     fs.writeFileSync(CREDENTIAL_PATH, CREDENTIAL);
@@ -29,15 +30,14 @@ export class GoogleSheetAPI {
       scopes: SCOPES,
     };
     GoogleSheetAPI.client = new JWT(GoogleSheetAPI.credentials);
+    GoogleSheetAPI.sheets = google.sheets({
+      version: 'v4',
+      auth: GoogleSheetAPI.client,
+    });
   }
   async getData(range: string) {
-    const auth = GoogleSheetAPI.client;
-    const sheets = google.sheets({
-      version: 'v4',
-      auth,
-    });
-    const res = await sheets.spreadsheets.values.get({
-      auth,
+    const res = await GoogleSheetAPI.sheets.spreadsheets.values.get({
+      auth: GoogleSheetAPI.client,
       spreadsheetId: SHEET_ID,
       range,
     });

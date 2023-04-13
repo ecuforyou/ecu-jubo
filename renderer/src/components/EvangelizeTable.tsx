@@ -2,13 +2,15 @@ import { Container } from '@/common/Container';
 import { Table } from '@/common/Table';
 import { TextBox } from '@/common/TextBox';
 import { TYPO, WEIGHT } from '@/common/theme';
-import { ITable } from './Jubo';
+import { MetadataContext } from '@/context/MetadataContext';
+import { ITable, Metadata } from '@/types';
+import { useContext } from 'react';
 
 interface EvangelizeTableProps extends ITable {}
 
 export function EvangelizeTable(props: EvangelizeTableProps) {
+  const metadata = useContext(MetadataContext);
   const { cols, rows, data } = props;
-
   return (
     <Container width={'90%'}>
       <TextBox size={TYPO.h1} extendedStyle={{ fontWeight: WEIGHT.bold }}>
@@ -25,7 +27,7 @@ export function EvangelizeTable(props: EvangelizeTableProps) {
         defaultBoxStyle={{ fontWeight: WEIGHT.bold }}
       />
       <TextBox size={TYPO.xs} extendedStyle={{ marginTop: 8, fontWeight: 700 }}>
-        가천대 / 건국대 / 서울교대 / 연세대 / 한양대 / Wisconsin-Madison
+        {metadata.campus_list ?? ''}
       </TextBox>
     </Container>
   );
