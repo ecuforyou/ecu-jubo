@@ -1,2 +1,3 @@
 created/**
 node_modules
+.env
