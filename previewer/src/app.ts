@@ -5,6 +5,8 @@ import path from 'path';
 import { slackEvents } from './slack';
 
 const app = express();
+
+app.use('/slack', slackEvents.requestListener());
 app.use(express.json());
 app.use(express.static(SAVE_PATH));
 
@@ -27,8 +29,6 @@ app.post('/set', async (req, res) => {
   const { message } = await response.json();
   res.json({ status: response.status, message });
 });
-
-app.post('/slack', slackEvents.requestListener());
 
 app.listen(PORT, () => {
   console.log(`Previewer started on PORT: ${PORT}`);
