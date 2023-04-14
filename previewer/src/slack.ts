@@ -2,7 +2,10 @@ import { createEventAdapter } from '@slack/events-api';
 import { SLACK_SIGNING_SECRET, SLACK_USER_OAUTH_TOKEN } from './envLayer';
 import { WebClient } from '@slack/web-api';
 
-const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET);
+const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
+  includeBody: true,
+  includeHeaders: true,
+});
 
 const client = new WebClient(SLACK_USER_OAUTH_TOKEN);
 

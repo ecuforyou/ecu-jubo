@@ -28,10 +28,7 @@ app.post('/set', async (req, res) => {
   res.json({ status: response.status, message });
 });
 
-app.post('/slack', (req: Request, res: Response) => {
-  console.log('from app', JSON.stringify(req.body));
-  slackEvents.requestListener()(req, res);
-});
+app.post('/slack', slackEvents.requestListener());
 
 app.listen(PORT, () => {
   console.log(`Previewer started on PORT: ${PORT}`);
