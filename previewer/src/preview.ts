@@ -8,7 +8,7 @@ const LOGO_ID = '#logo';
 const PUPPETEER_OPTIONS = {
   headless: true,
   args: [
-    '--disable-gpu',
+    '--use-gl=egl',
     '--disable-dev-shm-usage',
     '--disable-setuid-sandbox',
     '--no-first-run',
