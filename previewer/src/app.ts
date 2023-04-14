@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION, SAVE_PATH } from './envLayer';
 import { saveScreenshot } from './preview';
 import path from 'path';
@@ -28,7 +28,10 @@ app.post('/set', async (req, res) => {
   res.json({ status: response.status, message });
 });
 
-app.post('/slack', slackEvents.requestListener());
+app.post('/slack', (req: Request, res: Response) => {
+  console.log(req.body);
+  slackEvents.requestListener()(req, res);
+});
 
 app.listen(PORT, () => {
   console.log(`Previewer started on PORT: ${PORT}`);
