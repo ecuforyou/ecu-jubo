@@ -29,7 +29,7 @@ app.post('/set', async (req, res) => {
 });
 
 app.post('/slack', (req: Request, res: Response) => {
-  console.log(req.body);
+  console.log('from app', JSON.stringify(req.body));
   slackEvents.requestListener()(req, res);
 });
 
