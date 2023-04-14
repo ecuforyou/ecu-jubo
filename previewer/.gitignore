@@ -2,3 +2,4 @@ created/**
 node_modules
 .env
 dist
+src/*.js

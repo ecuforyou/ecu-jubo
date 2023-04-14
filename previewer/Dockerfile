@@ -1,16 +1,31 @@
-FROM ghcr.io/puppeteer/puppeteer:19.9.0
+FROM node:18
+
+# Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
+# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
+# installs, work.
+RUN apt-get update \
+    && apt-get install -y wget gnupg \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg \
+    && sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-khmeros fonts-kacst fonts-freefont-ttf libxss1 \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd -r pptruser && useradd -rm -g pptruser -G audio,video pptruser
+
+USER pptruser
+
+WORKDIR /home/pptruser
+
+RUN npm i global @puppeteer/browsers puppeteer puppeteer-core \
+    && (node -e "require('child_process').execSync(require('puppeteer').executablePath() + ' --credits', {stdio: 'inherit'})" > THIRD_PARTY_NOTICES)
+RUN node node_modules/puppeteer/install.js
+
 USER root
-WORKDIR /app
-# ARG NODE_VERSION=19
-# RUN apt-get update -y && \
-#     apt-get upgrade -y && \
-#     apt-get install -y && \
-#     curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && \
-#     apt-get install -y nodejs
-
 COPY package.json package-lock.json tsconfig.json ./
-RUN npm ci --ignore-scripts
+RUN npm install
 COPY . .
-RUN npm run build
 
-CMD ["npm", "start"]
+RUN npm run build
+EXPOSE 3001
+CMD ["google-chrome-stable", "--no-sandbox", "&&", "npm", "start"]

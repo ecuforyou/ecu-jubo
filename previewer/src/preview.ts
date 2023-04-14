@@ -7,6 +7,10 @@ const DIV_ID = '#jubo';
 export async function saveScreenshot(url: string) {
   const browser = await puppeteer.launch({
     headless: true,
+    ignoreDefaultArgs: ['--disable-extensions'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
+    devtools: false,
+    dumpio: true,
   });
   const page = await browser.newPage();
   await page.goto(url);
