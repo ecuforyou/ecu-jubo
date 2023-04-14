@@ -18,12 +18,11 @@ export function SubTitle(props: SubTitleProps) {
     );
   });
 
-  const from = metadata.from ?? '';
-
+  const at = metadata.at ?? '';
   return (
     <Container>
       <TextBox extendedStyle={{ fontWeight: WEIGHT.bold }}>{words}</TextBox>
-      <TextBox extendedStyle={{ fontWeight: WEIGHT.normal }}>{from}</TextBox>
+      <TextBox extendedStyle={{ fontWeight: WEIGHT.normal }}>{at}</TextBox>
     </Container>
   );
 }
