@@ -7,7 +7,7 @@ const DIV_ID = '#jubo';
 const PUPPETEER_OPTIONS = {
   headless: true,
   args: [
-    '--disable-gpu',
+    // '--disable-gpu',
     '--disable-dev-shm-usage',
     '--disable-setuid-sandbox',
     '--no-first-run',
@@ -17,6 +17,7 @@ const PUPPETEER_OPTIONS = {
     "--proxy-server='direct://'",
     '--proxy-bypass-list=*',
     '--deterministic-fetch',
+    '--window-size=900,1100',
   ],
 };
 export async function saveScreenshot(url: string) {
