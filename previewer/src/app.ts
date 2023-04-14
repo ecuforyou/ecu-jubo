@@ -24,6 +24,9 @@ app.post('/set', async (req, res) => {
   const { message } = await response.json();
   res.json({ status: response.status, message });
 });
+app.post('/slack-auth', (req, res) => {
+  res.json({ challenge: req.body.challenge });
+});
 
 app.listen(PORT, () => {
   console.log(`Previewer started on PORT: ${PORT}`);
