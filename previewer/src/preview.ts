@@ -3,11 +3,12 @@ import path from 'path';
 import { PREFIX, SAVE_PATH } from './envLayer';
 
 const DIV_ID = '#jubo';
+const LOGO_ID = '#logo';
 
 const PUPPETEER_OPTIONS = {
   headless: true,
   args: [
-    // '--disable-gpu',
+    '--disable-gpu',
     '--disable-dev-shm-usage',
     '--disable-setuid-sandbox',
     '--no-first-run',
@@ -25,6 +26,7 @@ export async function saveScreenshot(url: string) {
   const page = await browser.newPage();
   await page.goto(url);
   await page.waitForSelector(DIV_ID);
+  await page.waitForSelector(LOGO_ID);
 
   const filename = path.join(
     SAVE_PATH,
