@@ -24,8 +24,16 @@ app.post('/set', async (req, res) => {
   const { message } = await response.json();
   res.json({ status: response.status, message });
 });
-app.post('/slack-auth', (req, res) => {
-  res.json({ challenge: req.body.challenge });
+app.post('/slack', (req, res) => {
+  switch (req.body.type) {
+    case 'url_verification':
+      return res.json({ challenge: req.body.challenge });
+    case 'event_callback':
+      console.log(req.body);
+      return res.json({ message: 'todo' });
+    default:
+      return res.json({ message: 'todo' });
+  }
 });
 
 app.listen(PORT, () => {
