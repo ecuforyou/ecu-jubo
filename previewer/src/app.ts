@@ -2,6 +2,7 @@ import express from 'express';
 import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION } from './envLayer';
 import { saveScreenshot } from './preview';
 import path from 'path';
+import { slackEvents } from './slack';
 
 const app = express();
 app.use(express.json());
@@ -24,17 +25,8 @@ app.post('/set', async (req, res) => {
   const { message } = await response.json();
   res.json({ status: response.status, message });
 });
-app.post('/slack', (req, res) => {
-  switch (req.body.type) {
-    case 'url_verification':
-      return res.json({ challenge: req.body.challenge });
-    case 'event_callback':
-      console.log(req.body);
-      return res.json({ message: 'todo' });
-    default:
-      return res.json({ message: 'todo' });
-  }
-});
+
+app.post('/slack', slackEvents.requestListener());
 
 app.listen(PORT, () => {
   console.log(`Previewer started on PORT: ${PORT}`);
