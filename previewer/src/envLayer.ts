@@ -6,3 +6,5 @@ export const PREFIX = process.env.PREFIX ?? 'preview';
 export const GENERATE_PERIOD = process.env.GENERATE_PREIOD ?? '518400000';
 export const JUBOT_AUTHORIZATION = process.env.JUBOT_AUTHORIZATION ?? '';
 export const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET ?? '';
+export const SLACK_USER_OAUTH_TOKEN = process.env.SLACK_USER_OAUTH_TOKEN ?? '';
+export const SLACK_CHANNEL_ID = process.env.SLACK_CHANNEL_ID ?? '';
