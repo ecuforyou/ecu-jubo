@@ -27,4 +27,6 @@ body {
 
 * {
   margin: 0;
+  text-rendering: geometricprecision !important;
+  -webkit-font-smoothing: antialiased;
 }
