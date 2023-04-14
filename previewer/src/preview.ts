@@ -4,14 +4,23 @@ import { PREFIX, SAVE_PATH } from './envLayer';
 
 const DIV_ID = '#jubo';
 
+const PUPPETEER_OPTIONS = {
+  headless: true,
+  args: [
+    '--disable-gpu',
+    '--disable-dev-shm-usage',
+    '--disable-setuid-sandbox',
+    '--no-first-run',
+    '--no-sandbox',
+    '--no-zygote',
+    '--single-process',
+    "--proxy-server='direct://'",
+    '--proxy-bypass-list=*',
+    '--deterministic-fetch',
+  ],
+};
 export async function saveScreenshot(url: string) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    ignoreDefaultArgs: ['--disable-extensions'],
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
-    devtools: false,
-    dumpio: true,
-  });
+  const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
   const page = await browser.newPage();
   await page.goto(url);
   await page.waitForSelector(DIV_ID);
