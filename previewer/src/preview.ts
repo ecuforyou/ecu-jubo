@@ -3,7 +3,6 @@ import path from 'path';
 import { PREFIX, SAVE_PATH } from './envLayer';
 
 const DIV_ID = '#jubo';
-const LOGO_ID = '#logo';
 
 const PUPPETEER_OPTIONS = {
   headless: true,
@@ -24,16 +23,22 @@ const PUPPETEER_OPTIONS = {
 export async function saveScreenshot(url: string) {
   const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
   const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url);
   await page.waitForSelector(DIV_ID);
-  await page.waitForSelector(LOGO_ID);
 
   const filename = path.join(
     SAVE_PATH,
     `${PREFIX}-${new Date().toISOString()}.png`
   );
   const element = await page.$(DIV_ID);
-  await element?.screenshot({ path: filename });
+  await new Promise((res) =>
+    setTimeout(async () => {
+      await element?.screenshot({ path: filename, encoding: 'binary' });
+      res(1);
+    }, 1000)
+  );
+
   await browser.close();
 
   return filename;
