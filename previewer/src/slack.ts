@@ -17,7 +17,12 @@ const client = new WebClient(SLACK_BOT_OAUTH_TOKEN);
 const previewRules = [/preview/g, /주보/g];
 
 slackEvents.on('message', async (event) => {
-  const { user, text, ts: timestamp, channel } = event;
+  const {
+    user,
+    text,
+    ts: timestamp,
+    channel,
+  }: { [key: string]: string } = event;
   if (user === SLACK_BOT_ID) return;
 
   console.log(JSON.stringify(event));
@@ -38,13 +43,13 @@ slackEvents.on('message', async (event) => {
       await Promise.allSettled([
         client.files.upload({
           token: SLACK_BOT_OAUTH_TOKEN,
-          channel_id: channel,
+          channels: channel,
           file,
           filename: 'v1' + filename.split('/').slice(-1).toString(),
         }),
         client.filesUploadV2({
           token: SLACK_BOT_OAUTH_TOKEN,
-          channel_id: channel,
+          channels: channel,
           file,
           filename: 'v2' + filename.split('/').slice(-1).toString(),
         }),
@@ -62,6 +67,7 @@ slackEvents.on('message', async (event) => {
         name: 'interrobang',
         timestamp,
       });
+      throw err;
     }
     return;
   }
