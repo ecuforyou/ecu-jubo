@@ -23,7 +23,9 @@ const PUPPETEER_OPTIONS = {
 const pptr = puppeteer.launch(PUPPETEER_OPTIONS);
 
 export async function saveScreenshot(url: string) {
+  console.log('waiting for browser launch');
   const browser = await pptr;
+  console.log('browser launched');
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);

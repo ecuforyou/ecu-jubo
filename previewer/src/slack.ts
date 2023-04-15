@@ -11,7 +11,9 @@ import { saveScreenshot } from './preview';
 import fs from 'fs/promises';
 import path from 'path';
 
-const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET);
+const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
+  waitForResponse: true,
+});
 
 const client = new WebClient(SLACK_BOT_OAUTH_TOKEN);
 const previewRules = [/preview/g, /주보/g];
