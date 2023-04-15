@@ -35,7 +35,7 @@ export class SlackClient extends WebClient {
       const file = await fs.readFile(path.join(__dirname, '..', filename));
       await client.filesUploadV2({
         token: SLACK_BOT_OAUTH_TOKEN,
-        channels: channel,
+        channel_id: channel,
         file,
         filename: filename.split('/').slice(-1).toString(),
       });
@@ -68,18 +68,18 @@ const previewRules = [/preview/g, /주보/g];
 slackEvents.on('message', async (event: SlackEventRequest) => {
   const { user, text } = event;
   if (user === SLACK_BOT_ID) return;
-  client.setEvent(event);
 
   // TODO: match for every rules
   const matched = !isEmpty(previewRules.filter((rule) => rule.test(text)));
   if (matched) {
-    await client.addReaction('rocket');
+    client.setEvent(event);
+    client.addReaction('thumbsup');
     await client.uploadPreviewImage();
-    await client.addReaction('white_check_mark');
+    client.addReaction('white_check_mark');
     return;
-  } else {
-    await client.addReaction('question');
   }
+
+  client.addReaction('question');
 });
 
 export { slackEvents };
