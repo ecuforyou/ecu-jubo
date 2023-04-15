@@ -23,6 +23,7 @@ body {
   font-family: 'NanumBarunGothic', sans-serif;
   margin: 0;
   background-color: #f4f5fb;
+  min-width: 794px;
 }
 
 * {
