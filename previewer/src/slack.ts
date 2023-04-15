@@ -31,15 +31,24 @@ slackEvents.on('message', async (event) => {
       name: 'thumbsup',
       timestamp,
     });
-    const filename = await saveScreenshot(JUBOT_URL);
-    const file = await fs.readFile(path.join(__dirname, '..', filename));
-    const uplaoded = await client.filesUploadV2({
-      token: SLACK_BOT_OAUTH_TOKEN,
-      channel_id: channel,
-      file,
-      filename: filename.split('/').slice(-1).toString(),
-    });
-    if (uplaoded.ok) {
+    try {
+      const res = await fetch('/preview', { method: 'POST' });
+      const filename = res.headers.get('filename') ?? 'preview';
+      const file = Buffer.from(await res.arrayBuffer());
+      await client.filesUploadV2({
+        token: SLACK_BOT_OAUTH_TOKEN,
+        channel_id: channel,
+        file,
+        filename: filename.split('/').slice(-1).toString(),
+      });
+    } catch (err) {
+      client.reactions.add({
+        token: SLACK_BOT_OAUTH_TOKEN,
+        channel,
+        name: 'interrobang',
+        timestamp,
+      });
+    } finally {
       client.reactions.add({
         token: SLACK_BOT_OAUTH_TOKEN,
         channel,
