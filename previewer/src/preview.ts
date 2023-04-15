@@ -19,10 +19,11 @@ const PUPPETEER_OPTIONS = {
     '--deterministic-fetch',
     '--window-size=960,540',
   ],
-  timeout: 60000,
 };
+const pptr = puppeteer.launch(PUPPETEER_OPTIONS);
+
 export async function saveScreenshot(url: string) {
-  const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
+  const browser = await pptr;
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);
