@@ -31,28 +31,35 @@ slackEvents.on('message', async (event) => {
       name: 'thumbsup',
       timestamp,
     });
+
     try {
-      const res = await fetch('/preview', { method: 'POST' });
-      const filename = res.headers.get('filename') ?? 'preview';
-      const file = Buffer.from(await res.arrayBuffer());
-      await client.filesUploadV2({
+      const filename = await saveScreenshot(JUBOT_URL);
+      const file = await fs.readFile(path.join(__dirname, '..', filename));
+      await Promise.allSettled([
+        client.files.upload({
+          token: SLACK_BOT_OAUTH_TOKEN,
+          channel_id: channel,
+          file,
+          filename: 'v1' + filename.split('/').slice(-1).toString(),
+        }),
+        client.filesUploadV2({
+          token: SLACK_BOT_OAUTH_TOKEN,
+          channel_id: channel,
+          file,
+          filename: 'v2' + filename.split('/').slice(-1).toString(),
+        }),
+      ]);
+      client.reactions.add({
         token: SLACK_BOT_OAUTH_TOKEN,
-        channel_id: channel,
-        file,
-        filename: filename.split('/').slice(-1).toString(),
+        channel,
+        name: 'white_check_mark',
+        timestamp,
       });
     } catch (err) {
       client.reactions.add({
         token: SLACK_BOT_OAUTH_TOKEN,
         channel,
         name: 'interrobang',
-        timestamp,
-      });
-    } finally {
-      client.reactions.add({
-        token: SLACK_BOT_OAUTH_TOKEN,
-        channel,
-        name: 'white_check_mark',
         timestamp,
       });
     }
