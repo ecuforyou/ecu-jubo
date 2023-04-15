@@ -17,13 +17,14 @@ const PUPPETEER_OPTIONS = {
     "--proxy-server='direct://'",
     '--proxy-bypass-list=*',
     '--deterministic-fetch',
-    '--window-size=900,1100',
+    '--window-size=960,540',
   ],
+  timeout: 60000,
 };
 export async function saveScreenshot(url: string) {
   const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
   const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 1080 });
+  await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);
   await page.waitForSelector(DIV_ID);
 
