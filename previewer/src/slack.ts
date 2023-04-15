@@ -39,10 +39,9 @@ export class SlackClient extends WebClient {
         file,
         filename: filename.split('/').slice(-1).toString(),
       });
-      this.addReaction('white_check_mark');
     } catch (err) {
       this.addReaction('interrobang');
-      throw err;
+      throw JSON.stringify(err);
     }
   }
 
@@ -74,12 +73,13 @@ slackEvents.on('message', async (event: SlackEventRequest) => {
   // TODO: match for every rules
   const matched = !isEmpty(previewRules.filter((rule) => rule.test(text)));
   if (matched) {
-    client.addReaction('thumbsup');
-
+    await client.addReaction('rocket');
     await client.uploadPreviewImage();
+    await client.addReaction('white_check_mark');
     return;
+  } else {
+    await client.addReaction('question');
   }
-  client.addReaction('question');
 });
 
 export { slackEvents };
