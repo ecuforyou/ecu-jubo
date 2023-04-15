@@ -11,88 +11,75 @@ import { saveScreenshot } from './preview';
 import fs from 'fs/promises';
 import path from 'path';
 
+interface SlackEventRequest {
+  [key: string]: string;
+}
+export class SlackClient extends WebClient {
+  private event?: SlackEventRequest;
+  constructor(oauthToken?: string) {
+    super(oauthToken ?? SLACK_BOT_OAUTH_TOKEN);
+  }
+
+  setEvent(event: SlackEventRequest) {
+    this.event = event;
+    console.log(JSON.stringify(event));
+  }
+
+  /** timestamp is chat id */
+  async uploadPreviewImage() {
+    if (!this.event) return;
+
+    const { channel } = this.event;
+    try {
+      const filename = await saveScreenshot(JUBOT_URL);
+      const file = await fs.readFile(path.join(__dirname, '..', filename));
+      await client.filesUploadV2({
+        token: SLACK_BOT_OAUTH_TOKEN,
+        channels: channel,
+        file,
+        filename: filename.split('/').slice(-1).toString(),
+      });
+      this.addReaction('white_check_mark');
+    } catch (err) {
+      this.addReaction('interrobang');
+      throw err;
+    }
+  }
+
+  async addReaction(name: string) {
+    if (!this.event) return;
+
+    const { channel, ts: timestamp } = this.event;
+    return await client.reactions.add({
+      token: SLACK_BOT_OAUTH_TOKEN,
+      name,
+      channel,
+      timestamp,
+    });
+  }
+}
+
 const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
   waitForResponse: true,
 });
 
-const client = new WebClient(SLACK_BOT_OAUTH_TOKEN);
+const client = new SlackClient();
 const previewRules = [/preview/g, /주보/g];
 
-slackEvents.on('message', async (event) => {
-  const {
-    user,
-    text,
-    ts: timestamp,
-    channel,
-  }: { [key: string]: string } = event;
+slackEvents.on('message', async (event: SlackEventRequest) => {
+  const { user, text } = event;
   if (user === SLACK_BOT_ID) return;
-
-  console.log(JSON.stringify(event));
+  client.setEvent(event);
 
   // TODO: match for every rules
   const matched = !isEmpty(previewRules.filter((rule) => rule.test(text)));
   if (matched) {
-    client.reactions.add({
-      token: SLACK_BOT_OAUTH_TOKEN,
-      channel,
-      name: 'thumbsup',
-      timestamp,
-    });
+    client.addReaction('thumbsup');
 
-    try {
-      const filename = await saveScreenshot(JUBOT_URL);
-      const file = await fs.readFile(path.join(__dirname, '..', filename));
-      await Promise.allSettled([
-        client.files.upload({
-          token: SLACK_BOT_OAUTH_TOKEN,
-          channels: channel,
-          file,
-          filename: 'v1' + filename.split('/').slice(-1).toString(),
-        }),
-        client.filesUploadV2({
-          token: SLACK_BOT_OAUTH_TOKEN,
-          channels: channel,
-          file,
-          filename: 'v2' + filename.split('/').slice(-1).toString(),
-        }),
-      ]);
-      client.reactions.add({
-        token: SLACK_BOT_OAUTH_TOKEN,
-        channel,
-        name: 'white_check_mark',
-        timestamp,
-      });
-    } catch (err) {
-      client.reactions.add({
-        token: SLACK_BOT_OAUTH_TOKEN,
-        channel,
-        name: 'interrobang',
-        timestamp,
-      });
-      throw err;
-    }
+    await client.uploadPreviewImage();
     return;
   }
-
-  // client.chat.postMessage({
-  //   token: SLACK_BOT_OAUTH_TOKEN,
-  //   channel,
-  //   text: text,
-  // });
-
-  client.reactions.add({
-    token: SLACK_BOT_OAUTH_TOKEN,
-    channel,
-    name: 'question',
-    timestamp,
-  });
+  client.addReaction('question');
 });
-
-class Rule {
-  constructor(public regex: RegExp) {}
-  match(text: string) {
-    return this.regex.test(text);
-  }
-}
 
 export { slackEvents };
