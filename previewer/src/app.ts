@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION, SAVE_PATH } from './envLayer';
 import { saveScreenshot } from './preview';
 import path from 'path';
@@ -28,6 +28,11 @@ app.post('/set', async (req, res) => {
   });
   const { message } = await response.json();
   res.json({ status: response.status, message });
+});
+
+app.post('/notify', async (req, res) => {
+  console.log('req.body:', JSON.stringify(req.body));
+  res.json({ message: 'notify called' });
 });
 
 app.listen(PORT, () => {
