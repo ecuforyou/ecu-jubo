@@ -30,6 +30,10 @@ app.post('/set', async (req, res) => {
   res.json({ status: response.status, message });
 });
 
+/** TODO
+ * called by google cloud function
+ * if a few jobs should be called by cron job, matcher should be implemented
+ */
 app.post('/notify', async (req, res) => {
   console.log('req.body:', JSON.stringify(req.body));
   res.json({ message: 'notify called' });
