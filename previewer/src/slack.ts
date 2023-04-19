@@ -73,9 +73,9 @@ slackEvents.on('message', async (event: SlackEventRequest) => {
   const matched = !isEmpty(previewRules.filter((rule) => rule.test(text)));
   if (matched) {
     client.setEvent(event);
-    client.addReaction('thumbsup');
+    await client.addReaction('thumbsup');
     await client.uploadPreviewImage();
-    client.addReaction('white_check_mark');
+    await client.addReaction('white_check_mark');
     return;
   }
 
