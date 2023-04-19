@@ -68,18 +68,17 @@ const previewRules = [/preview/g, /주보/g];
 slackEvents.on('message', async (event: SlackEventRequest) => {
   const { user, text } = event;
   if (user === SLACK_BOT_ID) return;
+  client.setEvent(event);
 
   // TODO: match for every rules
   const matched = !isEmpty(previewRules.filter((rule) => rule.test(text)));
   if (matched) {
-    client.setEvent(event);
     await client.addReaction('thumbsup');
     await client.uploadPreviewImage();
-    await client.addReaction('white_check_mark');
     return;
   }
 
-  client.addReaction('question');
+  await client.addReaction('question');
 });
 
 export { slackEvents };
