@@ -20,8 +20,13 @@ const PUPPETEER_OPTIONS = {
   ],
 };
 
+// TODO: does IIFE works correctly here?
+const pptr = (function () {
+  return puppeteer.launch(PUPPETEER_OPTIONS);
+})();
+
 export async function saveScreenshot(url: string) {
-  const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
+  const browser = await pptr;
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);
