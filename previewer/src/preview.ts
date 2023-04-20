@@ -1,26 +1,8 @@
-import puppeteer from 'puppeteer';
 import path from 'path';
 import { PREFIX, SAVE_PATH } from './envLayer';
+import { pptr } from './pptrLauncher';
 
 const DIV_ID = '#jubo';
-
-const PUPPETEER_OPTIONS = {
-  headless: true,
-  args: [
-    '--use-gl=egl',
-    '--disable-dev-shm-usage',
-    '--disable-setuid-sandbox',
-    '--no-first-run',
-    '--no-sandbox',
-    '--no-zygote',
-    '--single-process',
-    "--proxy-server='direct://'",
-    '--proxy-bypass-list=*',
-    '--deterministic-fetch',
-    '--window-size=960,540',
-  ],
-};
-const pptr = puppeteer.launch(PUPPETEER_OPTIONS);
 
 export async function saveScreenshot(url: string) {
   const browser = await pptr;

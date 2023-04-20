@@ -68,8 +68,8 @@ export async function matcher(command: string, event: SlackEventRequest) {
 
   const selected = lists.filter((controller) => controller.test(command))[0];
   if (selected) {
-    await selected?.run(event);
-  } else {
-    await fallbackController.run(event);
+    await selected.run(event);
+    return;
   }
+  await fallbackController.run(event);
 }
