@@ -6,7 +6,10 @@ import { slackEvents } from './slack';
 
 const app = express();
 
-app.use('/slack', slackEvents.requestListener());
+app.use('/slack', (req, res) => {
+  slackEvents.requestListener()(req, res);
+  res.status(200).end();
+});
 app.use(express.json());
 app.use(express.static(SAVE_PATH));
 

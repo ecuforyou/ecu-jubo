@@ -7,10 +7,9 @@ import { SlackEventRequest } from './types';
  */
 const client = new SlackClient();
 
-function programmeService(event: SlackEventRequest) {
-  client
-    .addReaction(event, 'thumbsup')
-    .then(() => client.uploadPreviewImage(event));
+async function programmeService(event: SlackEventRequest) {
+  await client.addReaction(event, 'thumbsup');
+  await client.uploadPreviewImage(event);
 }
 const programmeController = new Ruler([/preview/g, /주보/g], programmeService);
 
@@ -22,8 +21,8 @@ const programmeController = new Ruler([/preview/g, /주보/g], programmeService)
  * get size data -> set at new rows
  * data may be loss if setEvangelization repeatedly called in seconds (if get, get, set, set occurs)
  */
-function evangelizeService(event: SlackEventRequest) {
-  client.addReaction(event, 'heavy_check_mark');
+async function evangelizeService(event: SlackEventRequest) {
+  await client.addReaction(event, 'heavy_check_mark');
 }
 const splits = '\\s+|\\/|\\.|-|\\|';
 const evangelizeController = new Ruler(
@@ -39,8 +38,8 @@ const evangelizeController = new Ruler(
  * if metadata exist -> update
  * if not exist -> add new
  */
-function setMetadataService(event: SlackEventRequest) {
-  client.addReaction(event, 'cherry_blossom');
+async function setMetadataService(event: SlackEventRequest) {
+  await client.addReaction(event, 'cherry_blossom');
 }
 const setMetadataController = new Ruler([/set/g], setMetadataService);
 
@@ -49,17 +48,17 @@ const setMetadataController = new Ruler([/set/g], setMetadataService);
  * after saturday, reset value
  * skip flag / counter should be regarded
  */
-function skipService(event: SlackEventRequest) {
-  client.addReaction(event, 'cherries');
+async function skipService(event: SlackEventRequest) {
+  await client.addReaction(event, 'cherries');
 }
 const skipController = new Ruler([/skip/g, /스킵/g], skipService);
 
-function fallbackService(event: SlackEventRequest) {
-  client.addReaction(event, 'question');
+async function fallbackService(event: SlackEventRequest) {
+  await client.addReaction(event, 'question');
 }
 const fallbackController = new Ruler([/.*/g], fallbackService);
 
-export function matcher(command: string, event: SlackEventRequest) {
+export async function matcher(command: string, event: SlackEventRequest) {
   const lists = [
     programmeController,
     evangelizeController,
@@ -69,8 +68,8 @@ export function matcher(command: string, event: SlackEventRequest) {
 
   const selected = lists.filter((controller) => controller.test(command))[0];
   if (selected) {
-    selected.run(event);
+    await selected.run(event);
     return;
   }
-  fallbackController.run(event);
+  await fallbackController.run(event);
 }

@@ -20,7 +20,7 @@ slackEvents.on('message', async (event: SlackEventRequest) => {
    */
   if (!messageCache.has(ts)) {
     messageCache.set(ts);
-    matcher(text, event);
+    await matcher(text, event);
   }
 });
 
