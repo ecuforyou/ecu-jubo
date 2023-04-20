@@ -16,7 +16,9 @@ export class SlackClient extends WebClient {
     const { channel } = event;
     try {
       const filename = await saveScreenshot(JUBOT_URL);
-      const file = await fs.readFile(path.join(__dirname, '..', filename));
+      const file = await fs.readFile(
+        path.join(__dirname, '..', '..', filename)
+      );
       await this.filesUploadV2({
         token: SLACK_BOT_OAUTH_TOKEN,
         channel_id: channel,
