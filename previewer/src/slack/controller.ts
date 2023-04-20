@@ -1,4 +1,4 @@
-import { SlackClient } from '.';
+import { SlackClient } from './client';
 import { Ruler } from './ruler';
 import { SlackEventRequest } from './types';
 

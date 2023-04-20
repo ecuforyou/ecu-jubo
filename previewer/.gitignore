@@ -1,4 +1,5 @@
 created/**
+public/**
 node_modules
 .env
 dist
