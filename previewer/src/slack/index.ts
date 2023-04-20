@@ -11,17 +11,19 @@ const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
 const messageCache = new SlackMessageCache(new Map<string, boolean>());
 
 slackEvents.on('message', async (event: SlackEventRequest) => {
-  const { user, text, ts } = event;
-  if (user === SLACK_BOT_ID) return;
+  (async function () {
+    const { user, text, ts } = event;
+    if (user === SLACK_BOT_ID) return;
 
-  /**
-   * Should response within 3 seconds, but it's difficult in this cloud run structure.
-   * So, use cache by ts.
-   */
-  if (!messageCache.has(ts)) {
-    messageCache.set(ts);
-    await matcher(text, event);
-  }
+    /**
+     * Should response within 3 seconds, but it's difficult in this cloud run structure.
+     * So, use cache by ts.
+     */
+    if (!messageCache.has(ts)) {
+      messageCache.set(ts);
+      await matcher(text, event);
+    }
+  })();
 });
 
 export { slackEvents };
