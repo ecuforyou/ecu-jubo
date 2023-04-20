@@ -12,7 +12,7 @@ const PUPPETEER_OPTIONS = {
     '--no-first-run',
     '--no-sandbox',
     '--no-zygote',
-    '--single-process',
+    // '--single-process',
     "--proxy-server='direct://'",
     '--proxy-bypass-list=*',
     '--deterministic-fetch',
@@ -22,11 +22,13 @@ const PUPPETEER_OPTIONS = {
 
 // TODO: does IIFE works correctly here?
 const pptr = (function () {
+  console.log('puppeteer launch');
   return puppeteer.launch(PUPPETEER_OPTIONS);
 })();
 
 export async function saveScreenshot(url: string) {
   const browser = await pptr;
+  console.log('wsEndpoint: ', browser.wsEndpoint());
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);
