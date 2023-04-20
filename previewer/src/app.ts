@@ -6,9 +6,9 @@ import { slackEvents } from './slack';
 
 const app = express();
 
-app.use('/slack', slackEvents.requestListener());
 app.use(express.json());
 app.use(express.static(SAVE_PATH));
+app.use('/slack', slackEvents.requestListener());
 
 app.post('/preview', async (req, res) => {
   const filename = await saveScreenshot(JUBOT_URL);

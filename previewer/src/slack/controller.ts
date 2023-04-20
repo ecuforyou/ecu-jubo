@@ -8,7 +8,7 @@ import { SlackEventRequest } from './types';
 const client = new SlackClient();
 
 async function programmeService(event: SlackEventRequest) {
-  await client.addReaction(event, 'thumbsup');
+  // await client.addReaction(event, 'thumbsup');
   await client.uploadPreviewImage(event);
 }
 const programmeController = new Ruler([/preview/g, /주보/g], programmeService);
