@@ -21,7 +21,6 @@ slackEvents.on('message', async (event: SlackEventRequest) => {
   if (!messageCache.has(ts)) {
     messageCache.set(ts);
     await matcher(text, event);
-    messageCache.remove(ts);
   }
 });
 
