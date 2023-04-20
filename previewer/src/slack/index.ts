@@ -2,12 +2,26 @@ import { SLACK_BOT_ID, SLACK_SIGNING_SECRET } from '../envLayer';
 import { SlackEventRequest } from './types';
 import { createEventAdapter } from '@slack/events-api';
 import { matcher } from './controller';
+import { SlackMessageCache } from './cache';
 
-const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET);
+const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
+  waitForResponse: true,
+});
+
+const messageCache = new SlackMessageCache(new Map<string, boolean>());
+
 slackEvents.on('message', async (event: SlackEventRequest) => {
-  const { user, text } = event;
+  const { user, text, ts } = event;
   if (user === SLACK_BOT_ID) return;
-  await matcher(text, event);
+
+  /**
+   * Should response within 3 seconds, but it's impossible in this cloud run structure.
+   * So, use cache by ts.
+   */
+  if (messageCache.set(ts)) {
+    await matcher(text, event);
+    messageCache.remove(ts);
+  }
 });
 
 export { slackEvents };
