@@ -3,9 +3,7 @@ import { SlackEventRequest } from './types';
 import { createEventAdapter } from '@slack/events-api';
 import { matcher } from './controller';
 
-const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
-  waitForResponse: true,
-});
+const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET);
 slackEvents.on('message', async (event: SlackEventRequest) => {
   const { user, text } = event;
   if (user === SLACK_BOT_ID) return;
