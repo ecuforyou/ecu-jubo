@@ -26,7 +26,7 @@ export class SlackClient extends WebClient {
         filename: filename.split('/').slice(-1).toString(),
       });
     } catch (err) {
-      throw JSON.stringify(err);
+      console.log(JSON.stringify(err));
     } finally {
       await this.addReaction(event, 'white_check_mark');
     }
