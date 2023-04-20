@@ -18,7 +18,8 @@ slackEvents.on('message', async (event: SlackEventRequest) => {
    * Should response within 3 seconds, but it's impossible in this cloud run structure.
    * So, use cache by ts.
    */
-  if (messageCache.set(ts)) {
+  if (!messageCache.has(ts)) {
+    messageCache.set(ts);
     await matcher(text, event);
     messageCache.remove(ts);
   }
