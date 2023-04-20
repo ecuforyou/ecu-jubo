@@ -6,9 +6,7 @@ export class SlackMessageCache {
   }
 
   set(ts: string): void {
+    console.log('cache set', ts);
     this.cache.set(ts, true);
-  }
-  remove(ts: string): boolean {
-    return this.cache.delete(ts);
   }
 }

@@ -1,11 +1,27 @@
 import path from 'path';
 import { PREFIX, SAVE_PATH } from './envLayer';
-import { pptr } from './pptrLauncher';
+import puppeteer from 'puppeteer';
 
 const DIV_ID = '#jubo';
+const PUPPETEER_OPTIONS = {
+  headless: true,
+  args: [
+    '--use-gl=egl',
+    '--disable-dev-shm-usage',
+    '--disable-setuid-sandbox',
+    '--no-first-run',
+    '--no-sandbox',
+    '--no-zygote',
+    '--single-process',
+    "--proxy-server='direct://'",
+    '--proxy-bypass-list=*',
+    '--deterministic-fetch',
+    '--window-size=960,540',
+  ],
+};
 
 export async function saveScreenshot(url: string) {
-  const browser = await pptr;
+  const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
   await page.goto(url);
