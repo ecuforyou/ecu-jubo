@@ -9,7 +9,7 @@ const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
 slackEvents.on('message', async (event: SlackEventRequest) => {
   const { user, text } = event;
   if (user === SLACK_BOT_ID) return;
-  matcher(text, event);
+  await matcher(text, event);
 });
 
 export { slackEvents };
