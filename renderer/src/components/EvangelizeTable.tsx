@@ -11,6 +11,9 @@ interface EvangelizeTableProps extends ITable {}
 export function EvangelizeTable(props: EvangelizeTableProps) {
   const metadata = useContext(MetadataContext);
   const { cols, rows, data } = props;
+  /**
+   * TODO: calculate - should show 5th column
+   */
   return (
     <Container width={'90%'}>
       <TextBox size={TYPO.h1} extendedStyle={{ fontWeight: WEIGHT.bold }}>

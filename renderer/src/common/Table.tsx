@@ -20,7 +20,7 @@ export function Table(props: TableProps) {
           primary={isPrimary?.(i) ?? false}
           extendedStyle={isPrimary?.(i) ? primaryBoxStyle : defaultBoxStyle}
         >
-          {d}
+          {d === '0' ? '' : d}
         </Box>
       ))}
     </div>
