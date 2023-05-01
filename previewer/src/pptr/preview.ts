@@ -5,11 +5,7 @@ import { Browser } from 'puppeteer';
 
 const DIV_ID = '#jubo';
 export async function saveScreenshot(url: string) {
-  const browser = await new Promise<Browser>((res) => {
-    setTimeout(async () => {
-      res(await Pptr.browser);
-    }, 100);
-  });
+  const browser = await Pptr.browser;
   console.log('wsEndpoint: ', browser.wsEndpoint());
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });

@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 
 const PUPPETEER_OPTIONS = {
   headless: true,
+  executablePath: '/usr/bin/chromium-browser',
   args: [
     '--use-gl=egl',
     '--disable-dev-shm-usage',
