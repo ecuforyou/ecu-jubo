@@ -1,14 +1,19 @@
 import path from 'path';
 import { PREFIX, SAVE_PATH } from '../envLayer';
 import { Pptr } from './browser';
+import { Browser } from 'puppeteer';
 
 const DIV_ID = '#jubo';
 export async function saveScreenshot(url: string) {
-  const browser = await Pptr.browser;
+  const browser = await new Promise<Browser>((res) => {
+    setTimeout(async () => {
+      res(await Pptr.browser);
+    }, 100);
+  });
   console.log('wsEndpoint: ', browser.wsEndpoint());
   const page = await browser.newPage();
   await page.setViewport({ width: 960, height: 540 });
-  await page.goto(url);
+  await page.goto(url, { waitUntil: 'load' });
   await page.waitForSelector(DIV_ID);
 
   const filename = path.join(

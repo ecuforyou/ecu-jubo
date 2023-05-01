@@ -6,7 +6,7 @@ const slackRouter = Router();
 
 const messageCache = new SlackMessageCache(new Map<string, boolean>());
 slackRouter.post('/', async (req, res) => {
-  console.log(JSON.stringify(req.body));
+  console.log(JSON.stringify(req.body.event));
   const { user, ts } = req.body.event;
   res.end();
   if (user === SLACK_BOT_ID) {
