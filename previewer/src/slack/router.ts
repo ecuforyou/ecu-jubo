@@ -15,7 +15,7 @@ slackRouter.post('/', async (req, res) => {
 
   if (!messageCache.has(ts)) {
     messageCache.set(ts);
-    await matcher(req.body);
+    await matcher(req.body.event);
   }
 });
 
