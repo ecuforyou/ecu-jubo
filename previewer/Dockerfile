@@ -10,7 +10,7 @@ RUN apt-get install -y ca-certificates fonts-liberation libasound2 \
   libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 \
   libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
   lsb-release wget xdg-utils \
-  chromium-browser libfontenc1 xfonts-encodings xfonts-utils xfonts-base xfonts-75dpi \
+  chromium libfontenc1 xfonts-encodings xfonts-utils xfonts-base xfonts-75dpi \
   fonts-nanum fonts-nanum-coding fonts-nanum-extra
 
 WORKDIR /home/pptruser
