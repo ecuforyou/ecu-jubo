@@ -58,7 +58,8 @@ async function fallbackService(event: SlackEventRequest) {
 }
 const fallbackController = new Ruler([/.*/g], fallbackService);
 
-export async function matcher(command: string, event: SlackEventRequest) {
+export async function matcher(event: SlackEventRequest) {
+  const command = event.text;
   const lists = [
     programmeController,
     evangelizeController,
