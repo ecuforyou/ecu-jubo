@@ -14,6 +14,9 @@ export function EvangelizeTable(props: EvangelizeTableProps) {
   /**
    * TODO: calculate - should show 5th column
    */
+  // Today is last week of the month?
+  // check first week
+  // calculate days diff
   return (
     <Container width={'90%'}>
       <TextBox size={TYPO.h1} extendedStyle={{ fontWeight: WEIGHT.bold }}>

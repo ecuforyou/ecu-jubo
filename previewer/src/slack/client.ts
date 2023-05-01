@@ -1,6 +1,6 @@
 import { WebClient } from '@slack/web-api';
 import { SLACK_BOT_OAUTH_TOKEN, JUBOT_URL } from '../envLayer';
-import { saveScreenshot } from '../preview';
+import { saveScreenshot } from '../pptr/preview';
 import { SlackEventRequest } from './types';
 import fs from 'fs/promises';
 import path from 'path';

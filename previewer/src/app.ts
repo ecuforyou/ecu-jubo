@@ -1,6 +1,6 @@
 import express from 'express';
 import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION, SAVE_PATH } from './envLayer';
-import { saveScreenshot } from './preview';
+import { saveScreenshot } from './pptr/preview';
 import path from 'path';
 import { slackEvents } from './slack';
 
