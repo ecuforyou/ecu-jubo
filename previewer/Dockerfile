@@ -22,4 +22,5 @@ RUN mkdir public
 COPY . .
 
 RUN npm run build
-CMD ["node_modules/puppeteer/install.js", "&&", "npm", "start"]
+RUN "node_modules/puppeteer/install.js"
+CMD ["npm", "start"]
