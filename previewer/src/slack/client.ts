@@ -27,9 +27,11 @@ export class SlackClient extends WebClient {
       });
     } catch (err) {
       console.log(JSON.stringify(err));
-    } finally {
-      await this.addReaction(event, 'white_check_mark');
     }
+    // this occurs error: 'already_reacted',
+    // finally {
+    //   await this.addReaction(event, 'white_check_mark');
+    // }
   }
 
   /** timestamp is chat id */
