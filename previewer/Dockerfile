@@ -17,9 +17,9 @@ WORKDIR /home/pptruser
 
 COPY package.json package-lock.json tsconfig.json ./
 RUN npm install
-RUN node node_modules/puppeteer/install.js
+# RUN node node_modules/puppeteer/install.js
 RUN mkdir public
 COPY . .
 
 RUN npm run build
-CMD ["npm", "start"]
+CMD ["node_modules/puppeteer/install.js", "&&", "npm", "start"]
