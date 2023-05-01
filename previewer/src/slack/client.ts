@@ -4,7 +4,9 @@ import { saveScreenshot } from '../pptr/preview';
 import { SlackEventRequest } from './types';
 import fs from 'fs/promises';
 import path from 'path';
+import { Pptr } from '../pptr/browser';
 
+new Pptr();
 export class SlackClient extends WebClient {
   constructor(oauthToken?: string) {
     super(oauthToken ?? SLACK_BOT_OAUTH_TOKEN);
