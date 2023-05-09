@@ -1,3 +1,4 @@
+import { SELF_URL } from '../envLayer';
 import { SlackClient } from './client';
 import { Ruler } from './ruler';
 import { SlackEventRequest } from './types';
@@ -13,7 +14,11 @@ async function programmeService(event: SlackEventRequest) {
   } catch (err) {
     console.log(JSON.stringify(err));
   }
-  await client.uploadPreviewImage(event);
+  const response = await fetch(`${SELF_URL}/preview`, {
+    method: 'POST',
+  });
+  const filename = response.headers.get('filename') ?? '';
+  await client.uploadPreviewImage(event, filename);
 }
 const programmeController = new Ruler([/preview/g, /주보/g], programmeService);
 

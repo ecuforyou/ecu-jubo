@@ -10,12 +10,12 @@ export class SlackClient extends WebClient {
     super(oauthToken ?? SLACK_BOT_OAUTH_TOKEN);
   }
 
-  async uploadPreviewImage(event: SlackEventRequest) {
+  async uploadPreviewImage(event: SlackEventRequest, filename: string) {
     if (!event) return;
 
     const { channel } = event;
     try {
-      const filename = await saveScreenshot(JUBOT_URL);
+      // const filename = await saveScreenshot(JUBOT_URL);
       const file = await fs.readFile(
         path.join(__dirname, '..', '..', filename)
       );
