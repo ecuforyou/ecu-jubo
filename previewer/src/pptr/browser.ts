@@ -1,7 +1,7 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { PuppeteerLaunchOptions } from 'puppeteer';
 
-const PUPPETEER_OPTIONS = {
-  headless: true,
+const PUPPETEER_OPTIONS: PuppeteerLaunchOptions = {
+  headless: 'new',
   args: [
     '--use-gl=egl',
     '--disable-dev-shm-usage',
@@ -19,7 +19,5 @@ const PUPPETEER_OPTIONS = {
 
 export class Pptr {
   public static browser = puppeteer.launch(PUPPETEER_OPTIONS);
-  constructor() {
-    console.log('constructor');
-  }
+  constructor() {}
 }
