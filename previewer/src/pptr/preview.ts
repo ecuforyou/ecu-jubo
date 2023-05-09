@@ -4,8 +4,8 @@ import { Pptr } from './browser';
 
 const DIV_ID = '#jubo';
 
+new Pptr();
 export async function saveScreenshot(url: string) {
-  new Pptr();
   const browser = await Pptr.browser;
   console.log('wsEndpoint: ', browser.wsEndpoint());
   const page = await browser.newPage();

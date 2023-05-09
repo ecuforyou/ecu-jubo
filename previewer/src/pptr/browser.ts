@@ -19,5 +19,7 @@ const PUPPETEER_OPTIONS = {
 
 export class Pptr {
   public static browser = puppeteer.launch(PUPPETEER_OPTIONS);
-  constructor() {}
+  constructor() {
+    console.log('constructor');
+  }
 }

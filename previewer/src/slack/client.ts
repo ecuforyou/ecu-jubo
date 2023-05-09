@@ -4,9 +4,7 @@ import { saveScreenshot } from '../pptr/preview';
 import { SlackEventRequest } from './types';
 import fs from 'fs/promises';
 import path from 'path';
-import { Pptr } from '../pptr/browser';
 
-new Pptr();
 export class SlackClient extends WebClient {
   constructor(oauthToken?: string) {
     super(oauthToken ?? SLACK_BOT_OAUTH_TOKEN);
@@ -26,21 +24,11 @@ export class SlackClient extends WebClient {
         token: SLACK_BOT_OAUTH_TOKEN,
         channel_id: channel,
         file,
-        filename: 'v2' + filename.split('/').slice(-1).toString(),
-      });
-      await this.files.upload({
-        token: SLACK_BOT_OAUTH_TOKEN,
-        channel_id: channel,
-        file,
-        filename: 'v1' + filename.split('/').slice(-1).toString(),
+        filename: filename.split('/').slice(-1).toString(),
       });
     } catch (err) {
       console.log(JSON.stringify(err));
     }
-    // this occurs error: 'already_reacted',
-    // finally {
-    //   await this.addReaction(event, 'white_check_mark');
-    // }
   }
 
   /** timestamp is chat id */
