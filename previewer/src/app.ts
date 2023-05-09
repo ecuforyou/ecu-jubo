@@ -2,14 +2,19 @@ import express from 'express';
 import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION, SAVE_PATH } from './envLayer';
 import { saveScreenshot } from './pptr/preview';
 import path from 'path';
-import slackRouter from './slack/router';
+import { slackEvents } from './slack';
+// import slackRouter from './slack/router';
 
 const app = express();
 
+app.use('/slack', (req, res) => {
+  res.status(200).end();
+  slackEvents.requestListener()(req, res);
+});
 app.use(express.json());
 app.use(express.static(SAVE_PATH));
 
-app.use('/slack', slackRouter);
+// app.use('/slack', slackRouter);
 app.post('/preview', async (req, res) => {
   const filename = await saveScreenshot(JUBOT_URL);
   res.setHeader('filename', filename);
