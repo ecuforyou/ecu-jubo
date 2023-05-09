@@ -21,14 +21,14 @@ const programmeController = new Ruler([/preview/g, /주보/g], programmeService)
  * get size data -> set at new rows
  * data may be loss if setEvangelization repeatedly called in seconds (if get, get, set, set occurs)
  */
+const splits = '\\s+|\\/|\\.|-|\\|';
+const evangelizeRegex = new RegExp(
+  `\\d{1,}(${splits})+\\d{1,}(${splits})+\\d{1,}`
+);
 async function evangelizeService(event: SlackEventRequest) {
   await client.addReaction(event, 'heavy_check_mark');
 }
-const splits = '\\s+|\\/|\\.|-|\\|';
-const evangelizeController = new Ruler(
-  [new RegExp(`\\d{1,}(${splits})+\\d{1,}(${splits})+\\d{1,}`)],
-  evangelizeService
-);
+const evangelizeController = new Ruler([evangelizeRegex], evangelizeService);
 
 /** TODO
  * set metadata by name

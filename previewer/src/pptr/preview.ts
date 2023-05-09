@@ -2,10 +2,10 @@ import path from 'path';
 import { PREFIX, SAVE_PATH } from '../envLayer';
 import { Pptr } from './browser';
 
-new Pptr();
 const DIV_ID = '#jubo';
 
 export async function saveScreenshot(url: string) {
+  new Pptr();
   const browser = await Pptr.browser;
   console.log('wsEndpoint: ', browser.wsEndpoint());
   const page = await browser.newPage();

@@ -3,9 +3,7 @@ import { PORT, JUBOT_URL, JUBOT_AUTHORIZATION, SAVE_PATH } from './envLayer';
 import { saveScreenshot } from './pptr/preview';
 import path from 'path';
 import slackRouter from './slack/router';
-import { Pptr } from './pptr/browser';
 
-new Pptr();
 const app = express();
 
 app.use(express.json());
