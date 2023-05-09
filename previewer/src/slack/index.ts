@@ -3,7 +3,6 @@ import { SlackEventRequest } from './types';
 import { createEventAdapter } from '@slack/events-api';
 import { matcher } from './controller';
 import { SlackMessageCache } from './cache';
-import { Pptr } from '../pptr/browser';
 
 const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
   waitForResponse: true,
@@ -12,9 +11,6 @@ const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET, {
 const messageCache = new SlackMessageCache(new Map<string, boolean>());
 
 slackEvents.on('message', async (event: SlackEventRequest) => {
-  new Pptr();
-  await Pptr.browser;
-
   const { user, text, ts } = event;
   if (user === SLACK_BOT_ID) return;
 

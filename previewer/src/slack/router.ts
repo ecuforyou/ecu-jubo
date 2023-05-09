@@ -2,12 +2,10 @@ import { Router } from 'express';
 import { matcher } from './controller';
 import { SLACK_BOT_ID } from '../envLayer';
 import { SlackMessageCache } from './cache';
-import { Pptr } from '../pptr/browser';
 const slackRouter = Router();
 
 const messageCache = new SlackMessageCache(new Map<string, boolean>());
 slackRouter.post('/', async (req, res) => {
-  new Pptr();
   console.log(JSON.stringify(req.body));
   const { user, ts } = req.body.event;
   res.end();
