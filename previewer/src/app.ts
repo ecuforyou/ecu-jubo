@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static(SAVE_PATH));
 
-app.post('/preview', async (req, res) => {
+app.get('/preview', async (req, res) => {
   const filename = await saveScreenshot(JUBOT_URL);
   res.setHeader('filename', filename);
   res.sendFile(filename, { root: path.join(__dirname, '..') });
