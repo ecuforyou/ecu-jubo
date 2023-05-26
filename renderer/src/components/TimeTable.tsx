@@ -1,4 +1,5 @@
 import { Container } from '@/common/Container';
+import { Line } from '@/common/Line';
 import { Table } from '@/common/Table';
 import { TextBox } from '@/common/TextBox';
 import { TYPO, WEIGHT } from '@/common/theme';
@@ -16,6 +17,7 @@ export function TimeTable(props: TimeTableProps) {
   const cleaner = metadata.cleaning_group ?? '';
   return (
     <Container width={'90%'} extendedStyle={{ marginTop: 20 }}>
+      {/* <Line extendedStyle={{ marginBottom: 20 }} /> */}
       <TextBox size={TYPO.h1} extendedStyle={{ fontWeight: 700 }}>
         일정 안내
       </TextBox>

@@ -1,10 +1,19 @@
-export type TypoName = 'large' | 'h1' | 'h2' | 'h3' | 'h4' | 'sm' | 'xs';
+export type TypoName =
+  | 'xlarge'
+  | 'large'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'sm'
+  | 'xs';
 
 export type TypoConfig = {
   [key in TypoName]: number;
 };
 
 export const TYPO: TypoConfig = {
+  xlarge: 80,
   large: 40,
   h1: 36,
   h2: 32,
@@ -15,6 +24,7 @@ export const TYPO: TypoConfig = {
 };
 
 export const COLOR = {
+  title: '#282E97',
   primary1: '#5258A7',
   primary2: '#D0D2EF',
   white: '#FFFFFF',
