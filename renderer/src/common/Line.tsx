@@ -1,13 +1,13 @@
 import { CSSProperties, PropsWithChildren, useMemo } from 'react';
 import { COLOR, TYPO } from './theme';
 
-interface LinePropx extends PropsWithChildren {
+interface LineProps extends PropsWithChildren {
   width?: number;
   height?: number;
   extendedStyle?: CSSProperties;
 }
 
-export function Line(props: LinePropx) {
+export function Line(props: LineProps) {
   const lineStyle: CSSProperties = useMemo(
     () => ({
       width: props.width ?? 28,

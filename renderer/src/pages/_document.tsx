@@ -9,7 +9,7 @@ export default function Document() {
         <meta property="og:title" content="ECU 토요모임" />
         <meta
           property="og:image"
-          content="https://weekly.ecukorea.com/_next/image?url=%2Flogo.png&w=384&q=100"
+          content="https://weekly.ecukorea.com/logo.png"
         />
         <meta property="og:description" content="ECU 토요모임" />
         <meta property="og:site_name" content="ECU 토요모임" />

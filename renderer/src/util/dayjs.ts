@@ -1,11 +1,18 @@
 import dayjs, { Dayjs } from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import isBetween from 'dayjs/plugin/isBetween';
+import utc from 'dayjs/plugin/utc';
 
+dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(isBetween);
+
 const TIMEZONE = 'Asia/Seoul';
 
+export function parseVersion(version?: string) {
+  const day = version ? dayjs.tz(version, 'MM/DD/YYYY', TIMEZONE) : now();
+  return day.format('YYYY.MM.DD');
+}
 export function now() {
   return dayjs.tz(TIMEZONE);
 }
