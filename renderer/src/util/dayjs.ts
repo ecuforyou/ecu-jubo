@@ -10,9 +10,10 @@ dayjs.extend(isBetween);
 const TIMEZONE = 'Asia/Seoul';
 
 export function parseVersion(version?: string) {
-  const day = version ? dayjs.tz(version, 'MM/DD/YYYY', TIMEZONE) : now();
-  return day.format('YYYY.MM.DD');
+  const day = version ? dayjs(version, 'MM/DD/YYYY') : now();
+  return day.format('YYYY. MM. DD.');
 }
+
 export function now() {
   return dayjs.tz(TIMEZONE);
 }
