@@ -22,12 +22,14 @@ export function TimeTable(props: TimeTableProps) {
         일정 안내
       </TextBox>
       <Table isPrimary={(idx) => idx < cols} data={data} />
-      {/*<TextBox
+      {/*
+<TextBox
         size={TYPO.xs}
         extendedStyle={{ width: '90%', textAlign: 'end', marginTop: 8 }}
       >
         청소: {cleaner}
-      </TextBox>*/}
+      </TextBox>
+*/}
     </Container>
   );
 }
