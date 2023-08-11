@@ -24,7 +24,7 @@ export function Jubo(props: JuboData) {
 }
 
 const juboStyle: CSSProperties = {
-  minWidth: '794px',
+  minWidth: '800px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

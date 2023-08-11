@@ -14,7 +14,12 @@ interface TimeTableProps extends ITable {
 export function TimeTable(props: TimeTableProps) {
   const metadata = useContext(MetadataContext);
   const { cols, rows, data } = props;
-  const cleaner = metadata.cleaning_group ?? '';
+  const { cleaning_group: cleaner, snack } = metadata;
+  const metadataJoined = [
+    snack ? `간식: ${snack}` : undefined,
+    cleaner ? `청소: ${cleaner}` : undefined,
+  ].join(' / ');
+
   return (
     <Container width={'90%'} extendedStyle={{ marginTop: 20 }}>
       {/* <Line extendedStyle={{ marginBottom: 20 }} /> */}
@@ -26,7 +31,7 @@ export function TimeTable(props: TimeTableProps) {
         size={TYPO.xs}
         extendedStyle={{ width: '90%', textAlign: 'end', marginTop: 8 }}
       >
-        {/*청소: {cleaner} */}
+        {metadataJoined}
       </TextBox>
     </Container>
   );
