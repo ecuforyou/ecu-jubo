@@ -18,7 +18,7 @@ export function TimeTable(props: TimeTableProps) {
   const metadataJoined = [
     snack ? `간식: ${snack}` : undefined,
     cleaner ? `청소: ${cleaner}` : undefined,
-  ].filter(e=>e).join(' / ');
+  ].filter(e=>e?.trim()).join(' / ');
 
   return (
     <Container width={'90%'} extendedStyle={{ marginTop: 20 }}>
