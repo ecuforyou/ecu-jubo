@@ -10,14 +10,37 @@ import { JuboData, RawJuboData, SheetName } from '@/types';
 import { MetadataContext } from '@/context/MetadataContext';
 import { sheets_v4 } from 'googleapis';
 import { As2DString, log } from '@/util';
+import html2canvas from 'html2canvas';
+import dayjs from 'dayjs';
+
+const juboPngAreaId = 'jubo-png-area';
+function saveJuboToPng() {
+  const jubo = document.getElementById(juboPngAreaId);
+  jubo &&
+    html2canvas(jubo).then((res) => {
+      const url = res.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${dayjs().format('YYYYMMDD')}.png`;
+      link.click();
+    });
+}
 
 export default function Home(data: JuboData) {
   const { metadata } = data;
   return (
     <MetadataContext.Provider value={metadata}>
-      <Wrapper>
-        <Jubo {...data} metadata={metadata} />
-      </Wrapper>
+      <div id={juboPngAreaId}>
+        <Wrapper>
+          <Jubo {...data} metadata={metadata} />
+        </Wrapper>
+      </div>
+      <div
+        style={{ textAlign: 'center', color: '#a4a5ab', marginBottom: 12 }}
+        onClick={saveJuboToPng}
+      >
+        이미지로 저장
+      </div>
     </MetadataContext.Provider>
   );
 }

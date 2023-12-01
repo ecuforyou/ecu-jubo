@@ -24,7 +24,9 @@ export function Jubo(props: JuboData) {
 }
 
 const juboStyle: CSSProperties = {
-  minWidth: '800px',
+  minWidth: 800,
+  marginLeft: 360,
+  marginRight: 360,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
