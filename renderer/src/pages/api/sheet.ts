@@ -1,17 +1,10 @@
-import path from 'path';
-import fs from 'fs';
-import {
-  AUTHORIZATION,
-  CREDENTIAL,
-  CREDENTIAL_FILE_NAME,
-  SHEET_ID,
-} from '../../envLayer';
+import { AUTHORIZATION, SHEET_ID } from '../../envLayer';
 import { google, sheets_v4 } from 'googleapis';
 import { JWT } from 'google-auth-library';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { log } from '@/util';
 
-const CREDENTIAL_PATH = path.join(process.cwd(), CREDENTIAL_FILE_NAME);
+const GOOGLE_CREDENTIAL_JSON = process.env.GOOGLE_CREDENTIAL_JSON;
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 
 interface Credentials {
@@ -26,10 +19,9 @@ export class GoogleSheetAPI {
   static sheets: sheets_v4.Sheets;
   constructor() {
     if (GoogleSheetAPI.credentials) return this;
-    fs.writeFileSync(CREDENTIAL_PATH, CREDENTIAL);
-    const credentials = JSON.parse(
-      fs.readFileSync(CREDENTIAL_PATH, { encoding: 'utf-8' })
-    );
+    if (!GOOGLE_CREDENTIAL_JSON)
+      throw Error('GOOGLE_CREDENTIAL_JSON should be given');
+    const credentials = JSON.parse(GOOGLE_CREDENTIAL_JSON);
 
     GoogleSheetAPI.credentials = {
       email: credentials.client_email,
