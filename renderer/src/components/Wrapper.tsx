@@ -6,6 +6,6 @@ export function Wrapper(props: PropsWithChildren) {
 const wrapperStyle: CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
-  minWidth: 900,
   width: '100%',
+  backgroundColor: '#f4f5fb',
 };
