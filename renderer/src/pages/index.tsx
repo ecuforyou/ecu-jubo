@@ -30,8 +30,8 @@ export default function Home(data: JuboData) {
   const { metadata } = data;
   return (
     <MetadataContext.Provider value={metadata}>
-      <div id={juboPngAreaId}>
-        <Wrapper>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Wrapper juboPngAreaId={juboPngAreaId}>
           <Jubo {...data} metadata={metadata} />
         </Wrapper>
       </div>
