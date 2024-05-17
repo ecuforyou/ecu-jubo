@@ -4,14 +4,15 @@ import Image from 'next/image';
 export function Title() {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Image
+      {/* <Image
         id="logo"
         src="/logo.png"
         width={164}
         height={72}
         alt="title"
         quality={100}
-      />
+      /> */}
+      <img src="/logo.png" width={164} height={72} alt="title" />
       <TextBox
         size={TYPO.xlarge}
         extendedStyle={{
